@@ -1,4 +1,4 @@
-FROM ubuntu:latest as build
+FROM ubuntu:18.04 as build
 ARG DEBIAN_FRONTEND=noninteractive
 WORKDIR /build
 
@@ -14,7 +14,7 @@ RUN git clone https://github.com/deurk/mvdsv.git && cd mvdsv \
 RUN git clone https://github.com/deurk/ktx.git && cd ktx \
   && meson build && ninja -C build
 
-FROM ubuntu:latest as run
+FROM ubuntu:18.04 as run
 ARG DEBIAN_FRONTEND=noninteractive
 WORKDIR /nquake
 
