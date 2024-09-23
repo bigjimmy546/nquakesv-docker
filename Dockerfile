@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 as build
+FROM ubuntu:latest as build
 ARG DEBIAN_FRONTEND=noninteractive
 WORKDIR /build
 
@@ -14,7 +14,7 @@ RUN git clone https://github.com/deurk/mvdsv.git && cd mvdsv \
 RUN git clone https://github.com/deurk/ktx.git && cd ktx \
   && meson build && ninja -C build
 
-FROM ubuntu:18.04 as run
+FROM ubuntu:latest as run
 ARG DEBIAN_FRONTEND=noninteractive
 WORKDIR /nquake
 
@@ -26,7 +26,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils \
 # Copy files
 COPY files .
 COPY --from=build /build/mvdsv/mvdsv /nquake/mvdsv
-COPY --from=build /build/ktx/build/qwprogs.so /nquake/ktx/qwprogs.so
+COPY --from=build /build/ktx/qwprogs.so /nquake/ktx/qwprogs.so
 COPY scripts/healthcheck.sh /healthcheck.sh
 COPY scripts/entrypoint.sh /entrypoint.sh
 
